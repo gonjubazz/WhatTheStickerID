@@ -8,7 +8,12 @@ logging.basicConfig(level=logging.INFO)
 
 bot = telebot.TeleBot(TOKEN)
 
-Directory = u'C:/Users\gabitovy\PycharmProjects\ThatTheStickerId/Users'
+Directory = r'C:\Users\gabit\WhatTheStickerID\Users'
+
+@bot.message_handler(commands=['update'])
+def send_update(message):
+    for id in Look.look_directory(Directory):
+         bot.send_message(id, 'added support (sup,you message)')
 
 
 @bot.message_handler(commands=['start'])
@@ -44,6 +49,17 @@ def send_sticker_id(message):
 @bot.message_handler(content_types=['text'])
 def send_sticker(message):
     print(message.chat.id, 'text:', message.text)
+    # if message.chat.id == 1173441935:
+    #     bot.send_message(message.chat.id, r"hi creator")
+    if message.text[:3] == 'sup':
+        try:
+            id_and_message = message.text.split(',')
+            print('SUPPORT id:' + str(message.chat.id) + ' message:' + id_and_message[1])
+        except:
+            print('invalid sup')
+    if message.text[:4] == '2008' and message.text[5:8] == 'sup':
+        message_text = message.text.split(',') #2008,sup,user_id,text
+        bot.send_message(message_text[2], 'support message: ' + message_text[3])
 
     if message.text[:2].lower() == 'id':
         try:
